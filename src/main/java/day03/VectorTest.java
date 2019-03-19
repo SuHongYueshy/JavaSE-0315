@@ -1,7 +1,7 @@
 package day03;
 
 import java.util.Vector;
-
+// 向量
 public class VectorTest {
     public static void main(String[] args) {
         Vector<String> strings = new Vector<>();// new 一个vector<string>类型的对象,用无参数初始化这个对象,使这个新对象可以装个string.返回值也是:vector<string >
