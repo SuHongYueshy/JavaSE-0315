@@ -30,7 +30,7 @@ public class FileTest {
         System.out.println(Arrays.toString(file2.list()));
 
         file1.renameTo(new File("new_writer.txt"));
-        
+
         File c = new File("c:/");
         System.out.println(Arrays.toString(c.list()));
     }
