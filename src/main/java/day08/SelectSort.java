@@ -12,7 +12,7 @@ public class SelectSort {
         }
         System.out.println(Arrays.toString(ints));
         for (int i = 0;i < ints.length - 1; i++) {
-            for (int y = 0; y < ints.length; y++) {
+            for (int y = 0; y < ints.length ; y++) {
                 if (ints[i] > ints[y]){
                     int temp = ints[i];
                     ints[i] = ints[y];
@@ -20,5 +20,6 @@ public class SelectSort {
                 }
             }
         }
+        System.out.println(Arrays.toString(ints));
     }
 }
