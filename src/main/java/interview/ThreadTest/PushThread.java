@@ -1,3 +1,4 @@
+/*
 package interview.ThreadTest;
 
 import com.sun.org.apache.bcel.internal.generic.StackInstruction;
@@ -25,3 +26,4 @@ public class PushThread implements Runnable {
     }
 }
 
+*/

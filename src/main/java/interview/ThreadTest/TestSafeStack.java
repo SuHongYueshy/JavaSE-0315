@@ -1,3 +1,4 @@
+/*
 package interview.ThreadTest;
 
 public class TestSafeStack {
@@ -14,3 +15,4 @@ public class TestSafeStack {
         t3.start();
     }
 }
+*/
