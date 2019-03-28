@@ -6,14 +6,12 @@ public class FinalTest {
     }
 }
 
-
 /**
  * final: class field method
  */
 
 class FinalClass{
     private final int anInt;
-
 
     public FinalClass() {
         anInt = 1;

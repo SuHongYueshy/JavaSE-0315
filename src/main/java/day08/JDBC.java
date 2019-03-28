@@ -1,5 +1,7 @@
 package day08;
 
+import com.mysql.jdbc.Driver;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,7 +12,7 @@ public class JDBC {
 
     private static final String URL = "jdbc:mysql://127.0.0.1:3306";
     private static final String User = "root";
-    private static final String PASSWORD = "shy126726";
+    private static final String PASSWORD = "12345678";
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         // 1. Driver

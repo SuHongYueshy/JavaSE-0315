@@ -12,8 +12,9 @@ create table db_test.user
 select *
 from db_test.user;
 
+
 drop database db_cmd;
 
 create database db_cmd;
 
-show databases ;
+show databases;

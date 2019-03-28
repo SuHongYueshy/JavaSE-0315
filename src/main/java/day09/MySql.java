@@ -1,4 +1,4 @@
-package day08;
+package day09;
 
 import com.mysql.jdbc.Driver;
 
@@ -18,7 +18,7 @@ GUI
     drop table ...;
     drop database ...;
  */
-public class MySqlCommandLine {
+public class MySql {
 
     private static final String URL = "jdbc:mysql:///?user=root&password=12345678&useSSL=false";
     private static Connection connection;
@@ -27,7 +27,7 @@ public class MySqlCommandLine {
     private static Scanner scanner;
     private static SimpleDateFormat simpleDateFormat;
 
-    public MySqlCommandLine() {
+    public MySql() {
         scanner = new Scanner(System.in);
         getConnection();
         simpleDateFormat = new SimpleDateFormat("[YYYY-MM-dd HH:mm:ss] ");
@@ -113,7 +113,7 @@ public class MySqlCommandLine {
     }
 
     public static void main(String[] args) throws SQLException {
-        MySqlCommandLine mySqlCommandLine = new MySqlCommandLine();
+        MySql mySqlCommandLine = new MySql();
         String sql = mySqlCommandLine.getSQL();
         System.out.println(sql);
         while (!sql.equalsIgnoreCase("quit")) {
