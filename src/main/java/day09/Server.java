@@ -2,6 +2,7 @@ package day09;
 
 import com.mysql.jdbc.Driver;
 
+import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,17 +19,15 @@ GUI
     drop table ...;
     drop database ...;
  */
-public class MySql {
+public class Server {
 
-    private static final String URL = "jdbc:mysql:///?user=root&password=12345678&useSSL=false";
+    private static final String URL = "jdbc:mysql:///?user=root&password=shy126726&useSSL=false";
     private static Connection connection;
     private PreparedStatement preparedStatement;
     private ResultSet resultSet;
-    private static Scanner scanner;
     private static SimpleDateFormat simpleDateFormat;
 
-    public MySql() {
-        scanner = new Scanner(System.in);
+    public Server() {
         getConnection();
         simpleDateFormat = new SimpleDateFormat("[YYYY-MM-dd HH:mm:ss] ");
     }
@@ -51,18 +50,20 @@ public class MySql {
      *
      * @param sql statement
      */
-    public void update(String sql) {
+    String update(String sql) {
+        String output;
         try {
             long start = System.currentTimeMillis();
             preparedStatement = connection.prepareStatement(sql);
             int rowAffected = preparedStatement.executeUpdate();
             long end = System.currentTimeMillis();
 
-            System.out.print(simpleDateFormat.format(new Date(end)));
-            System.out.println(rowAffected + " row affected in " + (end - start) + " ms");
+            output = simpleDateFormat.format(new Date(end));
+            output += rowAffected + "row affected in " + (end - start) + "ms";
         } catch (SQLException e) {
-            System.out.println("SQL Error: " + e.getMessage());
+            output = "SQL Error: " + e.getMessage();
         }
+        return output;
     }
 
     /**
@@ -70,56 +71,57 @@ public class MySql {
      *
      * @param sql statement
      */
-    public void query(String sql) {
+    String query(String sql) {
+        String output;
         try {
+            long start = System.currentTimeMillis();
             preparedStatement = connection.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
+            long end = System.currentTimeMillis();
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData(); // 元数据
             int columnCount = resultSetMetaData.getColumnCount();
+
+            String[] columnNames = new String[columnCount];
             for (int i = 0; i < columnCount; i++) {
-                System.out.print(resultSetMetaData.getColumnLabel(i + 1) + " ");
+                columnNames[i] = resultSetMetaData.getColumnLabel(i + 1);
             }
-            System.out.println("\n----------------------");
-            while (resultSet.next()) {
-                for (int i = 0; i < columnCount; i++) {
-                    System.out.print(resultSet.getString(i + 1) + " ");
+
+            int rowCount = 0; // 记录的条数
+            if (resultSet.last()) { // 移动到最后一条记录
+                rowCount = resultSet.getRow(); // 获取记录的条数
+                resultSet.beforeFirst(); // 移动到第一条之前
+            }
+
+            String[][] data = new String[rowCount][columnCount];
+
+            for (int row = 0; row < rowCount; row++) {
+                resultSet.next();
+                for (int col = 0; col < columnCount; col++) {
+                    data[row][col] = resultSet.getString(col + 1);
                 }
-                System.out.println();
             }
+
+            Client.defaultTableModel = new DefaultTableModel(data, columnNames);
+
+            output = simpleDateFormat.format(new Date(end));
+            output += (rowCount + " rows retrieved in " + (end - start) + " ms");
         } catch (SQLException e) {
-            System.out.println("SQL Error: " + e.getMessage());
-            e.printStackTrace();
+            output = "SQL Error: " + e.getMessage();
         }
+        return output;
     }
 
-    public void dispatch(String sql) {
-        if (sql.toLowerCase().trim().startsWith("select")) {
-            query(sql);
+    String dispatch(String sql) {
+        if (sql == null) {
+            return null;
         } else {
-            update(sql);
+            if (sql.toLowerCase().trim().startsWith("select")) {
+                return query(sql);
+            } else {
+                return update(sql);
+            }
         }
-    }
 
-    public String getSQL() {
-        System.out.print("mysql> ");
-        String line = scanner.nextLine();
-        StringBuilder sql = new StringBuilder(line);
-        while (!line.endsWith(";")) {
-            System.out.print("    -> ");
-            line = scanner.nextLine();
-            sql.append(line);
-        }
-        return sql.toString();
-    }
-
-    public static void main(String[] args) throws SQLException {
-        MySql mySqlCommandLine = new MySql();
-        String sql = mySqlCommandLine.getSQL();
-        System.out.println(sql);
-        while (!sql.equalsIgnoreCase("quit")) {
-            mySqlCommandLine.dispatch(sql);
-            sql = mySqlCommandLine.getSQL();
-        }
 
         /*
         mySqlCommandLine.getConnection();

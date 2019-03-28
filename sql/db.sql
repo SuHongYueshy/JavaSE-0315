@@ -15,6 +15,4 @@ from db_test.user;
 
 drop database db_cmd;
 
-create database db_cmd;
-
-show databases;
+create database db_cmd; -- Ctrl + Enter
