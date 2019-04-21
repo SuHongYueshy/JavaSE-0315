@@ -19,7 +19,7 @@ public class ConcatTest <T>{  //T: Type Parameters
         String s1 = "Tom";
         String s2 = "LiMing";
         ConcatTest<String> c1 = new ConcatTest<>();  //利用集合的方法进行的
-        c1.concat(s1, s2);
+        c1.concat(s1, s2); //concat用于连接两个或多个数组。该方法不会改变现有的数组，而仅仅会返回被连接数组的一个副本。返回一个新的数组。
 
         int i1 = 22;
         int i2 = 33;
